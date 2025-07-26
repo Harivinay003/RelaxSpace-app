@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -11,6 +11,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { generatePersonalizedMeditationPromptAction } from './actions';
 import { Loader2, Wand2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const useIsClient = () => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  return isClient;
+}
 
 const formSchema = z.object({
   mood: z.string().min(3, { message: 'Please describe your mood a little more.' }).max(100),
@@ -21,6 +30,7 @@ export default function AIPromptForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const isClient = useIsClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,6 +56,15 @@ export default function AIPromptForm() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (!isClient) {
+    return (
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <Skeleton className="h-[400px] w-full" />
+        <Skeleton className="h-[400px] w-full" />
+      </div>
+    );
   }
 
   return (
