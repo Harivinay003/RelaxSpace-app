@@ -1,31 +1,30 @@
 import SoundscapePlayer from './soundscape-player';
-import { Waves, Wind, CloudRain, Bird } from 'lucide-react';
 import type { Soundscape } from '@/lib/types';
 
-const soundscapes: Soundscape[] = [
+const soundscapes: Omit<Soundscape, 'icon'>[] = [
   {
     id: '1',
     name: 'Gentle Rain',
     audioUrl: '/sounds/rain.mp3', // Placeholder URL
-    icon: CloudRain,
+    iconName: 'CloudRain',
   },
   {
     id: '2',
     name: 'Ocean Waves',
     audioUrl: '/sounds/waves.mp3', // Placeholder URL
-    icon: Waves,
+    iconName: 'Waves',
   },
   {
     id: '3',
     name: 'Forest Ambience',
     audioUrl: '/sounds/forest.mp3', // Placeholder URL
-    icon: Bird,
+    iconName: 'Bird',
   },
   {
     id: '4',
     name: 'Calming Wind',
     audioUrl: '/sounds/wind.mp3', // Placeholder URL
-    icon: Wind,
+    iconName: 'Wind',
   },
 ];
 
@@ -40,7 +39,7 @@ export default function SoundsPage() {
       </p>
       <div className="space-y-4 rounded-lg border p-4">
         {soundscapes.map((sound) => (
-          <SoundscapePlayer key={sound.id} soundscape={sound} />
+          <SoundscapePlayer key={sound.id} soundscape={sound as Soundscape} />
         ))}
       </div>
     </div>

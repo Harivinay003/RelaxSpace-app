@@ -12,7 +12,8 @@ export interface Soundscape {
   id: string;
   name: string;
   audioUrl: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon?: React.ComponentType<{ className?: string }>;
+  iconName?: string;
 }
 
 export interface Session {

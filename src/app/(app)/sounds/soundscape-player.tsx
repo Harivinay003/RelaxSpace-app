@@ -4,14 +4,25 @@ import type { Soundscape } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Waves, Wind, CloudRain, Bird } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+
+const iconMap = {
+  Waves,
+  Wind,
+  CloudRain,
+  Bird,
+};
+
 
 export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscape }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const Icon = iconMap[soundscape.iconName as keyof typeof iconMap] || Waves;
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -48,7 +59,7 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between rounded-lg border p-4 transition-colors hover:bg-secondary/50">
       <div className="flex items-center gap-4 mb-4 sm:mb-0">
-        <soundscape.icon className="h-8 w-8 text-primary" />
+        <Icon className="h-8 w-8 text-primary" />
         <span className="font-medium">{soundscape.name}</span>
       </div>
       <div className="flex items-center gap-4 w-full sm:w-auto">
