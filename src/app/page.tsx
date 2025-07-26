@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, PlayCircle, Timer } from 'lucide-react';
+import { Activity, PlayCircle, Timer, Users } from 'lucide-react';
 import Link from 'next/link';
 import SessionTracker from './(app)/tracker/session-tracker';
 
@@ -14,7 +14,16 @@ export default function Dashboard() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <SessionTracker isDashboard={true} />
+            <SessionTracker isDashboard={true} show="time"/>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <SessionTracker isDashboard={true} show="sessions"/>
           </CardContent>
         </Card>
       </div>

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { format, subDays, parseISO } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const MOCK_SESSIONS: Session[] = [
   { id: '1', date: subDays(new Date(), 1).toISOString(), duration: 10, type: 'guided', title: 'Morning Gratitude' },
@@ -20,12 +21,13 @@ const STORAGE_KEY = 'sereneScapeSessions';
 
 interface SessionTrackerProps {
   isDashboard?: boolean;
-  show?: 'time' | 'sessions';
+  show?: 'time' | 'sessions' | 'all';
   showChart?: boolean;
 }
 
-export default function SessionTracker({ isDashboard = false, show, showChart = false }: SessionTrackerProps) {
+export default function SessionTracker({ isDashboard = false, show = 'all', showChart = false }: SessionTrackerProps) {
   const [sessions, setSessions] = useState<Session[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -40,12 +42,24 @@ export default function SessionTracker({ isDashboard = false, show, showChart = 
     } catch (error) {
         console.warn("Could not access local storage. Using mock data.");
         setSessions(MOCK_SESSIONS);
+    } finally {
+        setIsLoading(false);
     }
   }, []);
 
   const totalTime = sessions.reduce((acc, session) => acc + session.duration, 0);
   const totalSessions = sessions.length;
 
+  if (isLoading) {
+      if (isDashboard) {
+          return <Skeleton className="h-8 w-24" />
+      }
+      if (showChart) {
+          return <Skeleton className="h-[350px] w-full" />
+      }
+      return <Skeleton className="h-40 w-full" />;
+  }
+  
   if (isDashboard) {
     if (show === 'time') {
       return <div className="text-2xl font-bold">{totalTime} min</div>;

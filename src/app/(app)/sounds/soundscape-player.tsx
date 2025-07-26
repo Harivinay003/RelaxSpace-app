@@ -3,7 +3,6 @@
 import type { Soundscape } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
 import { Play, Pause, Volume2, VolumeX, Waves, Wind, CloudRain, Bird } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
@@ -16,22 +15,25 @@ const iconMap = {
 
 
 export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscape }) {
-  const [isMounted, setIsMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   const Icon = iconMap[soundscape.iconName as keyof typeof iconMap] || Waves;
 
   useEffect(() => {
     setIsMounted(true);
-    
-    audioRef.current = new Audio(soundscape.audioUrl);
-    audioRef.current.loop = true;
+    // Initialize audio on the client only
+    const audio = new Audio(soundscape.audioUrl);
+    audio.loop = true;
+    audioRef.current = audio;
 
     return () => {
-      audioRef.current?.pause();
+      // Cleanup audio when component unmounts
+      audio.pause();
+      audioRef.current = null;
     };
   }, [soundscape.audioUrl]);
   
@@ -56,9 +58,9 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
-  
+
   if (!isMounted) {
-      return null;
+    return null;
   }
 
   return (

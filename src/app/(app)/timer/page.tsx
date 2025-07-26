@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const DURATION_OPTIONS = [1, 5, 10, 15, 20, 30, 45, 60];
 
@@ -14,6 +15,11 @@ export default function TimerPage() {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isActive, setIsActive] = useState(false);
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+      setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -63,6 +69,13 @@ export default function TimerPage() {
       resetTimer();
   }, [duration, resetTimer]);
 
+  if (!isMounted) {
+      return (
+        <div className="flex flex-1 items-center justify-center p-4">
+            <Skeleton className="h-[450px] w-full max-w-md" />
+        </div>
+      )
+  }
 
   return (
     <div className="flex flex-1 items-center justify-center p-4">
