@@ -11,6 +11,7 @@ interface AuthContextType {
   login: (email: string, pass: string) => Promise<any>;
   register: (email: string, pass: string) => Promise<any>;
   logout: () => Promise<any>;
+  updateUsername: (name: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,12 +34,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return signInWithEmailAndPassword(auth, email, pass);
   };
 
-  const register = async (email: string, pass: string) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    // You can optionally update the profile with a default name or leave it empty
-    // await updateProfile(userCredential.user, { displayName: "User" });
-    setUser(auth.currentUser); 
-    return userCredential;
+  const register = (email: string, pass: string) => {
+    return createUserWithEmailAndPassword(auth, email, pass);
+  };
+  
+  const updateUsername = async (name: string) => {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName: name });
+      // Create a new user object with the updated displayName
+      const updatedUser = { ...auth.currentUser, displayName: name } as User;
+      setUser(updatedUser);
+    }
   };
 
   const logout = () => {
@@ -53,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login,
     register,
     logout,
+    updateUsername
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

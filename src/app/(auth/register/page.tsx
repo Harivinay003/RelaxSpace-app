@@ -21,7 +21,6 @@ import { FirebaseError } from 'firebase/app';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function RegisterPage() {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,13 +38,6 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name) {
-       toast({
-        title: 'Name is required',
-        variant: 'destructive',
-      });
-      return;
-    }
     if (password !== confirmPassword) {
       toast({
         title: 'Passwords do not match',
@@ -55,7 +47,7 @@ export default function RegisterPage() {
     }
     setIsLoading(true);
     try {
-      await register(name, email, password);
+      await register(email, password);
       router.push('/');
     } catch (error: any) {
       let title = 'Registration Failed';
@@ -108,10 +100,6 @@ export default function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input id="name" placeholder="John Doe" required value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
