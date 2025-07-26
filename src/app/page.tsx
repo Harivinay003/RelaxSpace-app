@@ -17,7 +17,7 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Account</CardTitle>
-            <LogIn className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <Skeleton className="h-8 w-24" />
@@ -30,16 +30,22 @@ export default function Dashboard() {
        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Account</CardTitle>
-            { user ? <LogOut className="h-4 w-4 text-muted-foreground" /> : <LogIn className="h-4 w-4 text-muted-foreground" />}
+            { user ? <Users className="h-4 w-4 text-muted-foreground" /> : <LogIn className="h-4 w-4 text-muted-foreground" />}
           </CardHeader>
           <CardContent>
             { user ? (
-                <Button size="sm" variant="outline" onClick={logout}>
-                  Logout
-                </Button>
+                <div className="space-y-2">
+                    <div className="font-semibold text-lg">{user.displayName}</div>
+                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                    <Button size="sm" variant="outline" onClick={logout} className="mt-2">
+                      <LogOut className="mr-2 h-4 w-4"/>
+                      Logout
+                    </Button>
+                </div>
             ) : (
               <Link href="/login" passHref>
                   <Button size="sm" variant="outline">
+                    <LogIn className="mr-2 h-4 w-4"/>
                     Login or Sign up
                   </Button>
               </Link>
@@ -75,7 +81,7 @@ export default function Dashboard() {
       <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
         <Card className="xl:col-span-2">
           <CardHeader>
-            <CardTitle>Welcome{user ? `, ${user.email}` : ' to SereneScape'}</CardTitle>
+            <CardTitle>Welcome{user ? `, ${user.displayName || user.email}` : ' to SereneScape'}</CardTitle>
             <CardDescription>
               Your personal space for peace and mindfulness. Start your journey below.
             </CardDescription>
