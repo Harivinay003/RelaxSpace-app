@@ -112,6 +112,7 @@ export default function RegisterPage() {
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
+            <p className="text-sm text-muted-foreground">Your password must be at least 6 characters long.</p>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirm-password">Confirm Password</Label>
