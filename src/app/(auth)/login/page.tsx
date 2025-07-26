@@ -56,6 +56,10 @@ export default function LoginPage() {
             title = 'Invalid Email';
             description = 'Please enter a valid email address.';
             break;
+          case 'auth/configuration-not-found':
+            title = 'Configuration Error';
+            description = 'Firebase authentication is not configured correctly. Please contact support.';
+            break;
           default:
             description = error.message;
         }
@@ -90,7 +94,15 @@ export default function LoginPage() {
             <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link
+                  href="/forgot-password"
+                  className="ml-auto inline-block text-sm underline"
+                >
+                  Forgot your password?
+                </Link>
+            </div>
             <div className="relative">
               <Input id="password" type={showPassword ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)}/>
               <button
