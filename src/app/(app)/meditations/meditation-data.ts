@@ -1,0 +1,58 @@
+import type { Meditation } from '@/lib/types';
+
+export const meditations: Meditation[] = [
+  {
+    id: '1',
+    title: 'Morning Gratitude',
+    description: 'Start your day with a heart full of gratitude and positivity.',
+    duration: 10,
+    audioUrl: '/sounds/forest.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Morning', 'Gratitude'],
+  },
+  {
+    id: '2',
+    title: 'Stress Relief Breathing',
+    description: 'A quick session to calm your mind and release tension.',
+    duration: 5,
+    audioUrl: '/sounds/wind.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Stress', 'Breathing'],
+  },
+  {
+    id: '3',
+    title: 'Deep Sleep Relaxation',
+    description: 'Drift into a peaceful sleep with this guided relaxation.',
+    duration: 15,
+    audioUrl: '/sounds/rain.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Sleep', 'Relaxation'],
+  },
+    {
+    id: '4',
+    title: 'Mindful Walking',
+    description: 'Connect with your body and surroundings on a mindful walk.',
+    duration: 20,
+    audioUrl: '/sounds/waves.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Mindfulness', 'Active'],
+  },
+  {
+    id: '5',
+    title: 'Focus and Concentration',
+    description: 'Enhance your focus for a productive day ahead.',
+    duration: 10,
+    audioUrl: '/sounds/forest.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Focus', 'Productivity'],
+  },
+  {
+    id: '6',
+    title: 'Loving-Kindness Meditation',
+    description: 'Cultivate compassion for yourself and others.',
+    duration: 12,
+    audioUrl: '/sounds/wind.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
+    tags: ['Compassion', 'Kindness'],
+  },
+];

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { PlayCircle, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 const meditations: Meditation[] = [
   {
@@ -11,8 +12,8 @@ const meditations: Meditation[] = [
     title: 'Morning Gratitude',
     description: 'Start your day with a heart full of gratitude and positivity.',
     duration: 10,
-    audioUrl: '',
-    imageUrl: '/images/morning-gratitude.jpg',
+    audioUrl: '/sounds/forest.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Morning', 'Gratitude'],
   },
   {
@@ -20,8 +21,8 @@ const meditations: Meditation[] = [
     title: 'Stress Relief Breathing',
     description: 'A quick session to calm your mind and release tension.',
     duration: 5,
-    audioUrl: '',
-    imageUrl: '/images/stress-relief.jpg',
+    audioUrl: '/sounds/wind.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Stress', 'Breathing'],
   },
   {
@@ -29,8 +30,8 @@ const meditations: Meditation[] = [
     title: 'Deep Sleep Relaxation',
     description: 'Drift into a peaceful sleep with this guided relaxation.',
     duration: 15,
-    audioUrl: '',
-    imageUrl: '/images/deep-sleep.jpg',
+    audioUrl: '/sounds/rain.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Sleep', 'Relaxation'],
   },
     {
@@ -38,8 +39,8 @@ const meditations: Meditation[] = [
     title: 'Mindful Walking',
     description: 'Connect with your body and surroundings on a mindful walk.',
     duration: 20,
-    audioUrl: '',
-    imageUrl: '/images/mindful-walking.jpg',
+    audioUrl: '/sounds/waves.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Mindfulness', 'Active'],
   },
   {
@@ -47,8 +48,8 @@ const meditations: Meditation[] = [
     title: 'Focus and Concentration',
     description: 'Enhance your focus for a productive day ahead.',
     duration: 10,
-    audioUrl: '',
-    imageUrl: '/images/focus-concentration.jpg',
+    audioUrl: '/sounds/forest.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Focus', 'Productivity'],
   },
   {
@@ -56,8 +57,8 @@ const meditations: Meditation[] = [
     title: 'Loving-Kindness Meditation',
     description: 'Cultivate compassion for yourself and others.',
     duration: 12,
-    audioUrl: '',
-    imageUrl: '/images/loving-kindness.jpg',
+    audioUrl: '/sounds/wind.mp3',
+    imageUrl: 'https://placehold.co/600x400.png',
     tags: ['Compassion', 'Kindness'],
   },
 ];
@@ -76,7 +77,7 @@ export default function MeditationsPage() {
               <Image
                 src={meditation.imageUrl}
                 alt={meditation.title}
-                layout="fill"
+                fill
                 objectFit="cover"
                 data-ai-hint={`${meditation.tags[0]} ${meditation.tags[1]}`}
               />
@@ -95,8 +96,10 @@ export default function MeditationsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                <PlayCircle className="mr-2 h-4 w-4" /> Play
+              <Button asChild className="w-full">
+                <Link href={`/meditations/${meditation.id}`}>
+                  <PlayCircle className="mr-2 h-4 w-4" /> Play
+                </Link>
               </Button>
             </CardFooter>
           </Card>
