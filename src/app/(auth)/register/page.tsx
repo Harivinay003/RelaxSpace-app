@@ -67,6 +67,10 @@ export default function RegisterPage() {
             title = 'Weak Password';
             description = 'Your password must be at least 6 characters long.';
             break;
+          case 'auth/configuration-not-found':
+            title = 'Configuration Error';
+            description = 'Firebase authentication is not configured correctly. Please contact support.';
+            break;
           default:
             description = error.message;
         }

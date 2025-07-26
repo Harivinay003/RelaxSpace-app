@@ -9,7 +9,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, pass: string) => Promise<any>;
-  register: (name: string, email: string, pass: string) => Promise<any>;
+  register: (email: string, pass: string) => Promise<any>;
   logout: () => Promise<any>;
 }
 
@@ -33,10 +33,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return signInWithEmailAndPassword(auth, email, pass);
   };
 
-  const register = async (name: string, email: string, pass: string) => {
+  const register = async (email: string, pass: string) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(userCredential.user, { displayName: name });
-    // Manually update the user state because onAuthStateChanged might not fire immediately
+    // You can optionally update the profile with a default name or leave it empty
+    // await updateProfile(userCredential.user, { displayName: "User" });
     setUser(auth.currentUser); 
     return userCredential;
   };
