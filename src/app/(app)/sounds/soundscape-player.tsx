@@ -16,6 +16,7 @@ const iconMap = {
 
 
 export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscape }) {
+  const [isMounted, setIsMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
@@ -23,17 +24,17 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
 
   const Icon = iconMap[soundscape.iconName as keyof typeof iconMap] || Waves;
 
-
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      audioRef.current = new Audio(soundscape.audioUrl);
-      audioRef.current.loop = true;
-    }
+    setIsMounted(true);
+    
+    audioRef.current = new Audio(soundscape.audioUrl);
+    audioRef.current.loop = true;
 
     return () => {
       audioRef.current?.pause();
     };
   }, [soundscape.audioUrl]);
+  
 
   useEffect(() => {
     if (audioRef.current) {
@@ -55,6 +56,10 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
+  
+  if (!isMounted) {
+      return null;
+  }
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between rounded-lg border p-4 transition-colors hover:bg-secondary/50">
