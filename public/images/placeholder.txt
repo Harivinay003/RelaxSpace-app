@@ -1,1 +1,0 @@
-This is a placeholder file. Please add your image files to this directory. The meditation page currently uses placeholder images from an online service, so you will need to update the `imageUrl` paths in `src/app/(app)/meditations/page.tsx` to point to your local images (e.g., '/images/your-image.png').

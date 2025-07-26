@@ -12,7 +12,7 @@ const meditations: Meditation[] = [
     description: 'Start your day with a heart full of gratitude and positivity.',
     duration: 10,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/morning-gratitude.jpg',
     tags: ['Morning', 'Gratitude'],
   },
   {
@@ -21,7 +21,7 @@ const meditations: Meditation[] = [
     description: 'A quick session to calm your mind and release tension.',
     duration: 5,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/stress-relief.jpg',
     tags: ['Stress', 'Breathing'],
   },
   {
@@ -30,7 +30,7 @@ const meditations: Meditation[] = [
     description: 'Drift into a peaceful sleep with this guided relaxation.',
     duration: 15,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/deep-sleep.jpg',
     tags: ['Sleep', 'Relaxation'],
   },
     {
@@ -39,7 +39,7 @@ const meditations: Meditation[] = [
     description: 'Connect with your body and surroundings on a mindful walk.',
     duration: 20,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/mindful-walking.jpg',
     tags: ['Mindfulness', 'Active'],
   },
   {
@@ -48,7 +48,7 @@ const meditations: Meditation[] = [
     description: 'Enhance your focus for a productive day ahead.',
     duration: 10,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/focus-concentration.jpg',
     tags: ['Focus', 'Productivity'],
   },
   {
@@ -57,7 +57,7 @@ const meditations: Meditation[] = [
     description: 'Cultivate compassion for yourself and others.',
     duration: 12,
     audioUrl: '',
-    imageUrl: 'https://placehold.co/600x400',
+    imageUrl: '/images/loving-kindness.jpg',
     tags: ['Compassion', 'Kindness'],
   },
 ];
