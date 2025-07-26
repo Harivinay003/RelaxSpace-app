@@ -35,8 +35,7 @@ export default function Dashboard() {
           <CardContent>
             { user ? (
                 <div className="space-y-2">
-                    <div className="font-semibold text-lg">{user.displayName}</div>
-                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                    <div className="font-semibold text-lg">{user.displayName || 'Welcome!'}</div>
                     <Button size="sm" variant="outline" onClick={logout} className="mt-2">
                       <LogOut className="mr-2 h-4 w-4"/>
                       Logout
@@ -81,7 +80,7 @@ export default function Dashboard() {
       <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
         <Card className="xl:col-span-2">
           <CardHeader>
-            <CardTitle>Welcome{user ? `, ${user.displayName || user.email}` : ' to SereneScape'}</CardTitle>
+            <CardTitle>Welcome to SereneScape{user ? `, ${user.displayName || ''}` : ''}</CardTitle>
             <CardDescription>
               Your personal space for peace and mindfulness. Start your journey below.
             </CardDescription>
