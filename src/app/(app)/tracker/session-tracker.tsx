@@ -8,16 +8,8 @@ import { Card } from '@/components/ui/card';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { format, subDays, parseISO } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const MOCK_SESSIONS: Session[] = [
-  { id: '1', date: subDays(new Date(), 1).toISOString(), duration: 10, type: 'guided', title: 'Morning Gratitude' },
-  { id: '2', date: subDays(new Date(), 2).toISOString(), duration: 5, type: 'timer', title: 'Unguided Timer' },
-  { id: '3', date: subDays(new Date(), 2).toISOString(), duration: 15, type: 'guided', title: 'Deep Sleep Relaxation' },
-  { id: '4', date: subDays(new Date(), 4).toISOString(), duration: 20, type: 'soundscape', title: 'Ocean Waves' },
-  { id: '5', date: subDays(new Date(), 6).toISOString(), duration: 10, type: 'guided', title: 'Focus and Concentration' },
-];
-
-const STORAGE_KEY = 'sereneScapeSessions';
+import { useAuth } from '@/hooks/use-auth';
+import { getSessions } from '@/lib/firestore';
 
 interface SessionTrackerProps {
   isDashboard?: boolean;
@@ -28,24 +20,25 @@ interface SessionTrackerProps {
 export default function SessionTracker({ isDashboard = false, show = 'all', showChart = false }: SessionTrackerProps) {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    try {
-      const storedSessions = localStorage.getItem(STORAGE_KEY);
-      if (storedSessions) {
-        setSessions(JSON.parse(storedSessions));
-      } else {
-        // First time load, populate with mock data
-        setSessions(MOCK_SESSIONS);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(MOCK_SESSIONS));
-      }
-    } catch (error) {
-        console.warn("Could not access local storage. Using mock data.");
-        setSessions(MOCK_SESSIONS);
-    } finally {
+    async function fetchSessions() {
+      if (!user) {
         setIsLoading(false);
+        return;
+      }
+      try {
+        const userSessions = await getSessions(user.uid);
+        setSessions(userSessions);
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, []);
+    fetchSessions();
+  }, [user]);
 
   const totalTime = sessions.reduce((acc, session) => acc + session.duration, 0);
   const totalSessions = sessions.length;
@@ -60,6 +53,17 @@ export default function SessionTracker({ isDashboard = false, show = 'all', show
       return <Skeleton className="h-40 w-full" />;
   }
   
+  if (!user && !isLoading) {
+    if (isDashboard) {
+       return <div className="text-2xl font-bold">0</div>;
+    }
+    return (
+       <Card className="flex items-center justify-center p-6">
+        <p className="text-muted-foreground">Please log in to see your sessions.</p>
+       </Card>
+    )
+  }
+
   if (isDashboard) {
     if (show === 'time') {
       return <div className="text-2xl font-bold">{totalTime} min</div>;

@@ -2,8 +2,9 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BarChart3, BrainCircuit, Home, Leaf, Timer, Waves, PanelLeft, Sun, Moon } from 'lucide-react';
+import { BarChart3, BrainCircuit, Home, Leaf, Timer, Waves, PanelLeft, Sun, Moon, LogIn, LogOut } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useAuth } from '@/hooks/use-auth';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { Skeleton } from './ui/skeleton';
 
 const navItems = [
   { href: '/', icon: Home, label: 'Dashboard' },
@@ -100,6 +102,61 @@ const ThemeToggle = () => {
   );
 };
 
+const AuthToggle = ({ isMobile = false } : {isMobile?: boolean}) => {
+  const { user, logout, loading } = useAuth();
+
+  if (loading) {
+     return <Skeleton className="h-8 w-8 rounded-full" />
+  }
+
+  const commonClass = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8";
+
+  if (user) {
+    if (isMobile) {
+      return (
+         <Button onClick={logout} variant="ghost" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+            <LogOut className="h-5 w-5" />
+            Logout
+          </Button>
+      )
+    }
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button onClick={logout} variant="ghost" size="icon" className={commonClass}>
+            <LogOut className="h-5 w-5" />
+            <span className="sr-only">Logout</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">Logout</TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  if(isMobile) {
+    return (
+      <Link href="/login" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+        <LogIn className="h-5 w-5" />
+        Login
+      </Link>
+    )
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Link href="/login">
+           <Button variant="ghost" size="icon" className={commonClass}>
+              <LogIn className="h-5 w-5" />
+              <span className="sr-only">Login</span>
+            </Button>
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent side="right">Login</TooltipContent>
+    </Tooltip>
+  )
+};
+
 
 export default function AppSidebar() {
   return (
@@ -119,6 +176,7 @@ export default function AppSidebar() {
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <ThemeToggle />
+          <AuthToggle />
         </nav>
       </aside>
       
@@ -142,6 +200,7 @@ export default function AppSidebar() {
                 {navItems.map((item) => (
                   <NavLink key={item.href} item={item} isMobile={true} />
                 ))}
+                <AuthToggle isMobile={true}/>
               </nav>
             </SheetContent>
           </Sheet>

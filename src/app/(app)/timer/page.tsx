@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuth } from '@/hooks/use-auth';
+import { addSession } from '@/lib/firestore';
 
 const DURATION_OPTIONS = [1, 5, 10, 15, 20, 30, 45, 60];
 
@@ -16,10 +18,39 @@ export default function TimerPage() {
   const [isActive, setIsActive] = useState(false);
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
       setIsMounted(true);
   }, []);
+
+  const logSession = useCallback(async () => {
+    if (user) {
+      try {
+        await addSession(user.uid, {
+          date: new Date().toISOString(),
+          duration: duration / 60,
+          type: 'timer',
+          title: 'Unguided Timer',
+        });
+        toast({
+            title: 'Session Complete!',
+            description: 'Your meditation session has been logged.',
+        });
+      } catch (error) {
+        toast({
+            title: 'Error logging session',
+            description: 'Could not save your session to the database.',
+            variant: 'destructive',
+        });
+      }
+    } else {
+        toast({
+            title: 'Session Complete!',
+            description: 'Log in to save your progress.',
+        });
+    }
+  }, [duration, user, toast]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -29,17 +60,12 @@ export default function TimerPage() {
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
       setIsActive(false);
-      // Play a gentle chime sound here in a real app
-      toast({
-        title: 'Session Complete!',
-        description: 'You have completed your meditation session.',
-      });
-      // Here you would also log the session to the tracker
+      logSession();
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, timeLeft, toast]);
+  }, [isActive, timeLeft, toast, logSession]);
 
   const handleDurationChange = (value: string) => {
     const newDuration = parseInt(value, 10) * 60;

@@ -22,4 +22,5 @@ export interface Session {
   duration: number; // in minutes
   type: 'guided' | 'timer' | 'soundscape';
   title: string;
+  userId?: string; // Add userId to associate session with a user
 }

@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import AppSidebar from '@/components/app-sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
+import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
   title: 'SereneScape',
@@ -25,18 +26,20 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="relative flex min-h-screen flex-col">
-            <AppSidebar />
-            <main className="flex-1 md:pl-14">{children}</main>
-          </div>
-          <Toaster />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="relative flex min-h-screen flex-col">
+              <AppSidebar />
+              <main className="flex-1 md:pl-14">{children}</main>
+            </div>
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,10 +1,54 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, PlayCircle, Timer, Users, LogIn } from 'lucide-react';
+import { Activity, PlayCircle, Timer, Users, LogIn, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import SessionTracker from './(app)/tracker/session-tracker';
+import { useAuth } from '@/hooks/use-auth';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Dashboard() {
+  const { user, loading, logout } = useAuth();
+
+  const AccountCard = () => {
+    if (loading) {
+      return (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Account</CardTitle>
+            <LogIn className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-8 w-24" />
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+       <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Account</CardTitle>
+            { user ? <LogOut className="h-4 w-4 text-muted-foreground" /> : <LogIn className="h-4 w-4 text-muted-foreground" />}
+          </CardHeader>
+          <CardContent>
+            { user ? (
+                <Button size="sm" variant="outline" onClick={logout}>
+                  Logout
+                </Button>
+            ) : (
+              <Link href="/login" passHref>
+                  <Button size="sm" variant="outline">
+                    Login or Sign up
+                  </Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
+    )
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -26,24 +70,12 @@ export default function Dashboard() {
             <SessionTracker isDashboard={true} show="sessions"/>
           </CardContent>
         </Card>
-         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Account</CardTitle>
-            <LogIn className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <Link href="/login" passHref>
-                <Button size="sm" variant="outline">
-                  Login or Sign up
-                </Button>
-            </Link>
-          </CardContent>
-        </Card>
+        <AccountCard />
       </div>
       <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
         <Card className="xl:col-span-2">
           <CardHeader>
-            <CardTitle>Welcome to SereneScape</CardTitle>
+            <CardTitle>Welcome{user ? `, ${user.email}` : ' to SereneScape'}</CardTitle>
             <CardDescription>
               Your personal space for peace and mindfulness. Start your journey below.
             </CardDescription>
