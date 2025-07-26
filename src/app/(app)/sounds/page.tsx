@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import SoundscapePlayer from './soundscape-player';
 import type { Soundscape } from '@/lib/types';
 
@@ -29,6 +32,12 @@ const soundscapes: Omit<Soundscape, 'icon'>[] = [
 ];
 
 export default function SoundsPage() {
+  const [playingId, setPlayingId] = useState<string | null>(null);
+
+  const handlePlay = (id: string) => {
+    setPlayingId(currentId => (currentId === id ? null : id));
+  };
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between space-y-2">
@@ -39,7 +48,12 @@ export default function SoundsPage() {
       </p>
       <div className="space-y-4 rounded-lg border p-4">
         {soundscapes.map((sound) => (
-          <SoundscapePlayer key={sound.id} soundscape={sound as Soundscape} />
+          <SoundscapePlayer
+            key={sound.id}
+            soundscape={sound as Soundscape}
+            isPlaying={playingId === sound.id}
+            onPlay={() => handlePlay(sound.id)}
+          />
         ))}
       </div>
     </div>

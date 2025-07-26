@@ -13,9 +13,13 @@ const iconMap = {
   Bird,
 };
 
+interface SoundscapePlayerProps {
+  soundscape: Soundscape;
+  isPlaying: boolean;
+  onPlay: () => void;
+}
 
-export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscape }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function SoundscapePlayer({ soundscape, isPlaying, onPlay }: SoundscapePlayerProps) {
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -25,17 +29,25 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
 
   useEffect(() => {
     setIsMounted(true);
-    // Initialize audio on the client only
     const audio = new Audio(soundscape.audioUrl);
     audio.loop = true;
     audioRef.current = audio;
 
     return () => {
-      // Cleanup audio when component unmounts
       audio.pause();
       audioRef.current = null;
     };
   }, [soundscape.audioUrl]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(error => console.error("Audio play failed:", error));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
   
 
   useEffect(() => {
@@ -43,17 +55,6 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
       audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
     }
   }, [volume, isMuted]);
-
-  const togglePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(error => console.error("Audio play failed:", error));
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -70,7 +71,7 @@ export default function SoundscapePlayer({ soundscape }: { soundscape: Soundscap
         <span className="font-medium">{soundscape.name}</span>
       </div>
       <div className="flex items-center gap-4 w-full sm:w-auto">
-        <Button onClick={togglePlayPause} variant="ghost" size="icon">
+        <Button onClick={onPlay} variant="ghost" size="icon">
           {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
           <span className="sr-only">{isPlaying ? 'Pause' : 'Play'}</span>
         </Button>
