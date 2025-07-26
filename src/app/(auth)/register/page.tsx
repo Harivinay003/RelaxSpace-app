@@ -17,6 +17,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { FirebaseError } from 'firebase/app';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -41,11 +42,34 @@ export default function RegisterPage() {
       await register(email, password);
       router.push('/');
     } catch (error: any) {
+      let title = 'Registration Failed';
+      let description = 'An unexpected error occurred. Please try again.';
+
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            title = 'Email Already in Use';
+            description = 'This email address is already registered. Please try logging in.';
+            break;
+          case 'auth/invalid-email':
+            title = 'Invalid Email';
+            description = 'Please enter a valid email address.';
+            break;
+          case 'auth/weak-password':
+            title = 'Weak Password';
+            description = 'Your password must be at least 6 characters long.';
+            break;
+          default:
+            description = error.message;
+        }
+      }
+      
       toast({
-        title: 'Registration Failed',
-        description: error.message,
+        title: title,
+        description: description,
         variant: 'destructive',
       });
+    } finally {
       setIsLoading(false);
     }
   };

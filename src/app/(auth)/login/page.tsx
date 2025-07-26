@@ -17,6 +17,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { FirebaseError } from 'firebase/app';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -33,11 +34,32 @@ export default function LoginPage() {
       await login(email, password);
       router.push('/');
     } catch (error: any) {
+      let title = 'Login Failed';
+      let description = 'An unexpected error occurred. Please try again.';
+
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/user-not-found':
+          case 'auth/wrong-password':
+          case 'auth/invalid-credential':
+            title = 'Invalid Credentials';
+            description = 'The email or password you entered is incorrect.';
+            break;
+          case 'auth/invalid-email':
+            title = 'Invalid Email';
+            description = 'Please enter a valid email address.';
+            break;
+          default:
+            description = error.message;
+        }
+      }
+      
       toast({
-        title: 'Login Failed',
-        description: error.message,
+        title: title,
+        description: description,
         variant: 'destructive',
       });
+    } finally {
       setIsLoading(false);
     }
   };
