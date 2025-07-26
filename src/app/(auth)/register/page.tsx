@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { FirebaseError } from 'firebase/app';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -27,6 +28,11 @@ export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +79,10 @@ export default function RegisterPage() {
       setIsLoading(false);
     }
   };
+
+  if (!isMounted) {
+    return <Skeleton className="h-[520px] w-full max-w-sm" />;
+  }
 
   return (
     <Card className="w-full max-w-sm">
