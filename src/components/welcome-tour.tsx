@@ -15,7 +15,7 @@ import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 
 const tourSteps = [
   {
-    title: 'Welcome to SereneScape!',
+    title: 'Welcome to Relax Space!',
     description: "Let's take a quick tour to see what you can do.",
   },
   {
@@ -45,7 +45,7 @@ const tourSteps = [
   },
 ];
 
-const TOUR_STORAGE_KEY = 'serenescape_tour_completed';
+const TOUR_STORAGE_KEY = 'relaxspace_tour_completed';
 
 export function WelcomeTour() {
   const [isOpen, setIsOpen] = useState(false);

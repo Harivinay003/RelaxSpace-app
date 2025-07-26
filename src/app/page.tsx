@@ -86,7 +86,7 @@ export default function Dashboard() {
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
           <Card className="xl:col-span-2">
             <CardHeader>
-              <CardTitle>Welcome to SereneScape{user?.displayName ? `, ${user.displayName}` : ''}</CardTitle>
+              <CardTitle>Welcome to Relax Space{user?.displayName ? `, ${user.displayName}` : ''}</CardTitle>
               <CardDescription>
                 Your personal space for peace and mindfulness. Start your journey below.
               </CardDescription>

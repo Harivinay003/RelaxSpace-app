@@ -6,7 +6,7 @@ import './globals.css';
 import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
-  title: 'SereneScape',
+  title: 'Relax Space',
   description: 'A serene guided meditation app to help users relax and focus.',
 };
 

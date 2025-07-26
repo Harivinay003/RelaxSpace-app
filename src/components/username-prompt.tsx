@@ -54,7 +54,7 @@ export function UsernamePrompt() {
       <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Welcome to SereneScape</DialogTitle>
+            <DialogTitle>Welcome to Relax Space</DialogTitle>
             <DialogDescription>
               To get started, please create a username.
             </DialogDescription>
