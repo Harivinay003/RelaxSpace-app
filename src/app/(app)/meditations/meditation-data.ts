@@ -7,7 +7,7 @@ export const meditations: Meditation[] = [
     description: 'Start your day with a heart full of gratitude and positivity.',
     duration: 10,
     audioUrl: '/sounds/forest.mp3',
-    imageUrl: '/images/meditations/gratitude.jpg',
+    imageUrl: '/images/meditations/morning-gratitude.jpg',
     tags: ['Morning', 'Gratitude'],
   },
   {
@@ -25,7 +25,7 @@ export const meditations: Meditation[] = [
     description: 'Drift into a peaceful sleep with this guided relaxation.',
     duration: 15,
     audioUrl: '/sounds/rain.mp3',
-    imageUrl: '/images/meditations/sleep.jpg',
+    imageUrl: '/images/meditations/deep-sleep.jpg',
     tags: ['Sleep', 'Relaxation'],
   },
     {
@@ -34,7 +34,7 @@ export const meditations: Meditation[] = [
     description: 'Connect with your body and surroundings on a mindful walk.',
     duration: 20,
     audioUrl: '/sounds/waves.mp3',
-    imageUrl: '/images/meditations/walking.jpg',
+    imageUrl: '/images/meditations/mindful-walking.jpg',
     tags: ['Mindfulness', 'Active'],
   },
   {
@@ -43,7 +43,7 @@ export const meditations: Meditation[] = [
     description: 'Enhance your focus for a productive day ahead.',
     duration: 10,
     audioUrl: '/sounds/forest.mp3',
-    imageUrl: '/images/meditations/focus.jpg',
+    imageUrl: '/images/meditations/focus-concentration.jpg',
     tags: ['Focus', 'Productivity'],
   },
   {
@@ -52,7 +52,7 @@ export const meditations: Meditation[] = [
     description: 'Cultivate compassion for yourself and others.',
     duration: 12,
     audioUrl: '/sounds/wind.mp3',
-    imageUrl: '/images/meditations/kindness.jpg',
+    imageUrl: '/images/meditations/loving-kindness.jpg',
     tags: ['Compassion', 'Kindness'],
   },
 ];
