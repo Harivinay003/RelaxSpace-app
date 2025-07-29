@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -149,8 +150,9 @@ export default function MeditationPlayerPage() {
           <Image
             src={meditation.imageUrl}
             alt={meditation.title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             data-ai-hint={`${meditation.tags[0]} ${meditation.tags[1]}`}
           />
         </div>

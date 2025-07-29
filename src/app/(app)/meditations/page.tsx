@@ -1,3 +1,4 @@
+
 import type { Meditation } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,8 @@ export default function MeditationsPage() {
                 src={meditation.imageUrl}
                 alt={meditation.title}
                 fill
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 data-ai-hint={`${meditation.tags[0]} ${meditation.tags[1]}`}
               />
             </div>
