@@ -75,16 +75,6 @@ const NavLink = ({ item, isMobile }: { item: typeof navItems[0], isMobile: boole
 
 const ThemeToggle = () => {
   const { setTheme } = useTheme();
-  const [isClient, setIsClient] = React.useState(false)
-
-  React.useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return <Skeleton className="h-8 w-8 rounded-full" />;
-  }
-
 
   return (
     <DropdownMenu>

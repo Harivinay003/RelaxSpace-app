@@ -23,12 +23,10 @@ export default function SoundscapePlayer({ soundscape, isPlaying, onPlay }: Soun
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
 
   const Icon = iconMap[soundscape.iconName as keyof typeof iconMap] || Waves;
 
   useEffect(() => {
-    setIsMounted(true);
     const audio = new Audio(soundscape.audioUrl);
     audio.loop = true;
     audioRef.current = audio;
@@ -59,10 +57,6 @@ export default function SoundscapePlayer({ soundscape, isPlaying, onPlay }: Soun
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between rounded-lg border p-4 transition-colors hover:bg-secondary/50">
