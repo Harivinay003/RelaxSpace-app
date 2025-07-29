@@ -182,8 +182,8 @@ export default function AppSidebar() {
           ))}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {isClient ? <ThemeToggle /> : <Skeleton className="h-8 w-8 rounded-lg" />}
-          {isClient ? <AuthToggle /> : <Skeleton className="h-8 w-8 rounded-full" />}
+          {isClient ? <ThemeToggle /> : null}
+          {isClient ? <AuthToggle /> : null}
         </nav>
       </aside>
       
