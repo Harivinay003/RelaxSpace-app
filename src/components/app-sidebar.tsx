@@ -22,7 +22,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Skeleton } from './ui/skeleton';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', icon: Home, label: 'Dashboard' },
@@ -160,6 +160,12 @@ const AuthToggle = ({ isMobile = false } : {isMobile?: boolean}) => {
 
 
 export default function AppSidebar() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <TooltipProvider>
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -176,8 +182,8 @@ export default function AppSidebar() {
           ))}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <ThemeToggle />
-          <AuthToggle />
+          {isClient ? <ThemeToggle /> : <Skeleton className="h-8 w-8 rounded-lg" />}
+          {isClient ? <AuthToggle /> : <Skeleton className="h-8 w-8 rounded-full" />}
         </nav>
       </aside>
       
