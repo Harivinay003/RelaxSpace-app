@@ -17,12 +17,7 @@ export default function TimerPage() {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isActive, setIsActive] = useState(false);
   const { toast } = useToast();
-  const [isMounted, setIsMounted] = useState(false);
-  const { user } = useAuth();
-
-  useEffect(() => {
-      setIsMounted(true);
-  }, []);
+  const { user, loading } = useAuth();
 
   const logSession = useCallback(async () => {
     if (user) {
@@ -95,7 +90,7 @@ export default function TimerPage() {
       resetTimer();
   }, [duration, resetTimer]);
 
-  if (!isMounted) {
+  if (loading) {
       return (
         <div className="flex flex-1 items-center justify-center p-4">
             <Skeleton className="h-[450px] w-full max-w-md" />

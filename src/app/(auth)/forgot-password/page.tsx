@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -23,13 +23,8 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const { sendPasswordReset } = useAuth();
+  const { sendPasswordReset, loading: authLoading } = useAuth();
   const { toast } = useToast();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +61,7 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  if (!isMounted) {
+  if (authLoading) {
     return <Skeleton className="h-[350px] w-full max-w-sm" />;
   }
   

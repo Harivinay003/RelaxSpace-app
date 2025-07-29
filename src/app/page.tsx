@@ -1,6 +1,6 @@
 
 'use client';
-
+import React, { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, PlayCircle, Timer, Users, LogIn, LogOut } from 'lucide-react';
@@ -8,8 +8,10 @@ import Link from 'next/link';
 import SessionTracker from './(app)/tracker/session-tracker';
 import { useAuth } from '@/hooks/use-auth';
 import { Skeleton } from '@/components/ui/skeleton';
-import { UsernamePrompt } from '@/components/username-prompt';
-import { WelcomeTour } from '@/components/welcome-tour';
+
+const UsernamePrompt = React.lazy(() => import('@/components/username-prompt').then(m => ({ default: m.UsernamePrompt })));
+const WelcomeTour = React.lazy(() => import('@/components/welcome-tour').then(m => ({ default: m.WelcomeTour })));
+
 
 export default function Dashboard() {
   const { user, loading, logout } = useAuth();
@@ -59,8 +61,10 @@ export default function Dashboard() {
 
   return (
     <>
-      {user && !user.displayName && <UsernamePrompt />}
-      {user && <WelcomeTour />}
+      <Suspense fallback={null}>
+        {user && !user.displayName && <UsernamePrompt />}
+        {user && <WelcomeTour />}
+      </Suspense>
       <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card>
