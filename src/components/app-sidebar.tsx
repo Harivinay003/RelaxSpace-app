@@ -181,10 +181,12 @@ export default function AppSidebar() {
             <NavLink key={item.href} item={item} isMobile={false} />
           ))}
         </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {isClient ? <ThemeToggle /> : null}
-          {isClient ? <AuthToggle /> : null}
-        </nav>
+        {isClient && (
+          <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+            <ThemeToggle />
+            <AuthToggle />
+          </nav>
+        )}
       </aside>
       
       <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 md:hidden">
@@ -207,7 +209,7 @@ export default function AppSidebar() {
                 {navItems.map((item) => (
                   <NavLink key={item.href} item={item} isMobile={true} />
                 ))}
-                <AuthToggle isMobile={true}/>
+                {isClient && <AuthToggle isMobile={true}/>}
               </nav>
             </SheetContent>
           </Sheet>
